@@ -27,7 +27,7 @@ public class AdminController : Controller
     }
     public async Task<IActionResult> AdminProfile()
     {
-        var adminId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Или другой способ получения ID администратора
+        var adminId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
         var admin = await _userManager.FindByIdAsync(adminId);
 
         if (admin == null)
@@ -44,7 +44,6 @@ public class AdminController : Controller
             Email = admin.Email,
             Users = users,
             Roles = roles
-            // Инициализируйте другие свойства модели, если необходимо
         };
 
         return View(model);
@@ -142,7 +141,6 @@ public class AdminController : Controller
     }
 
 
-// Управление жанрами
 public async Task<IActionResult> Genres()
     {
         var genres = await _context.Genres.ToListAsync();
@@ -173,7 +171,6 @@ public async Task<IActionResult> Genres()
         return RedirectToAction("Genres");
     }
 
-    // Управление песнями
     public async Task<IActionResult> Songs()
     {
         var songs = await _context.Songs.Include(s => s.Genre).ToListAsync();
@@ -239,14 +236,12 @@ public async Task<IActionResult> Genres()
         return $"/songs/{file.FileName}";
     }
 
-    // Display registration requests
     public async Task<IActionResult> RegistrationRequests()
     {
         var requests = await _context.RegistrationRequests.ToListAsync();
         return View(requests);
     }
 
-    // Approve a registration request
     [HttpPost]
     public async Task<IActionResult> ApproveRequest(int requestId)
     {
@@ -277,7 +272,6 @@ public async Task<IActionResult> Genres()
         return RedirectToAction(nameof(RegistrationRequests));
     }
 
-    // Reject a registration request
     [HttpPost]
     public async Task<IActionResult> RejectRequest(int requestId)
     {
@@ -291,7 +285,6 @@ public async Task<IActionResult> Genres()
         return RedirectToAction(nameof(RegistrationRequests));
     }
 
-    // View a registration request for approval
     public async Task<IActionResult> ViewRequest(int requestId)
     {
         var request = await _context.RegistrationRequests.FindAsync(requestId);

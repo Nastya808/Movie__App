@@ -17,7 +17,6 @@ public class RegistrationRequestsController : Controller
         _context = context;
     }
 
-    // GET: RegistrationRequests
     public async Task<IActionResult> Index()
     {
         List<RegistrationRequest> requests = await _context.RegistrationRequests
@@ -27,7 +26,6 @@ public class RegistrationRequestsController : Controller
         return View(requests);
     }
 
-    // GET: RegistrationRequests/Process/5
     public async Task<IActionResult> Process(int? id)
     {
         if (id == null)
@@ -45,7 +43,6 @@ public class RegistrationRequestsController : Controller
         _context.Update(request);
         await _context.SaveChangesAsync();
 
-        // Here you can add logic to create a new user or handle the request
 
         return RedirectToAction(nameof(Index));
     }

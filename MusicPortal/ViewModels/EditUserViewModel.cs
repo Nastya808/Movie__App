@@ -1,5 +1,4 @@
-﻿// File: ViewModels/EditUserViewModel.cs
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MusicPortal.ViewModels
 {

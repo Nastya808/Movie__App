@@ -15,10 +15,8 @@ namespace MusicPortal.ViewModels
         [Required(ErrorMessage = "Genre is required.")]
         public int GenreId { get; set; }
 
-        // Свойство для нового загружаемого файла
         public IFormFile? SongFile { get; set; }
 
-        // Свойство для хранения пути к уже загруженному файлу
         public string? SongFilePath { get; set; }
 
         public IEnumerable<SelectListItem>? Genres { get; set; }

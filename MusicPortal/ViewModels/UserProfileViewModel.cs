@@ -1,5 +1,4 @@
-﻿// File: UserProfileViewModel.cs
-using MusicPortal.Models;
+﻿using MusicPortal.Models;
 
 namespace MusicPortal.ViewModels
 {

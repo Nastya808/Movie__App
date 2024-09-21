@@ -169,7 +169,6 @@ namespace MusicPortal.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Re-populate genres for the view model in case of invalid model state
             model.Genres = await _context.Genres
                                 .Select(g => new ViewModels.SelectListItem
                                 {
@@ -183,7 +182,6 @@ namespace MusicPortal.Controllers
 
 
 
-        // Delete Action
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {

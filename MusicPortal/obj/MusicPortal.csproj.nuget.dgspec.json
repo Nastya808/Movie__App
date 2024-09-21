@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/nastyaergenova/Projects/MusicPortal  2/MusicPortal/MusicPortal.csproj": {}
+    "/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/MusicPortal.csproj": {}
   },
   "projects": {
-    "/Users/nastyaergenova/Projects/MusicPortal  2/MusicPortal/MusicPortal.csproj": {
+    "/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/MusicPortal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/nastyaergenova/Projects/MusicPortal  2/MusicPortal/MusicPortal.csproj",
+        "projectUniqueName": "/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/MusicPortal.csproj",
         "projectName": "MusicPortal",
-        "projectPath": "/Users/nastyaergenova/Projects/MusicPortal  2/MusicPortal/MusicPortal.csproj",
+        "projectPath": "/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/MusicPortal.csproj",
         "packagesPath": "/Users/nastyaergenova/.nuget/packages/",
-        "outputPath": "/Users/nastyaergenova/Projects/MusicPortal  2/MusicPortal/obj/",
+        "outputPath": "/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/nastyaergenova/.nuget/NuGet/NuGet.Config"

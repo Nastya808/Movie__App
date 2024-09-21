@@ -7,8 +7,7 @@ namespace MusicPortal.ViewModels
     {
         public string UserName { get; set; }
         public string Email { get; set; }
-        public IList<ApplicationUser> Users { get; set; } // Список пользователей
-        public IList<IdentityRole> Roles { get; set; } // Список ролей
-        // Добавьте другие свойства, которые будут отображены в профиле администратора
+        public IList<ApplicationUser> Users { get; set; } 
+        public IList<IdentityRole> Roles { get; set; } 
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AeQYCQtKKOimX54IqipWm1GeIWdADxKnHNmoZ2haXcrVJWPKqySUUhQT7zllAZrs2vMdbttuBDvmUHpLPRgRgw==",
+  "dgSpecHash": "f+E/tmS5QxUc4mXJhA04GOSDXP3s988gddjvXkum6lmT8ACa3HZirOvH3NqX7N99Xg2Zs6q+qhdqxDjZzmS2WA==",
   "success": true,
-  "projectFilePath": "/Users/nastyaergenova/Projects/MusicPortal  2/MusicPortal/MusicPortal.csproj",
+  "projectFilePath": "/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/MusicPortal.csproj",
   "expectedPackageFiles": [
     "/Users/nastyaergenova/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/Users/nastyaergenova/.nuget/packages/microsoft.aspnetcore.antiforgery/2.0.3/microsoft.aspnetcore.antiforgery.2.0.3.nupkg.sha512",

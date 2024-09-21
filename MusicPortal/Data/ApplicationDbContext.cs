@@ -27,7 +27,6 @@ namespace MusicPortal.Data
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Добавьте конфигурации для других сущностей, если необходимо
         }
 
     }

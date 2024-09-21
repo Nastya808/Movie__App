@@ -14,11 +14,9 @@ using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Entity Framework to use SQLite
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configure Identity services
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
@@ -38,7 +36,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-// Configure application cookie options
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
@@ -48,7 +45,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-// Configure session management
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -57,28 +53,22 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Register generic repository services
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-// Add MVC services
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Seed roles, an admin user, and genres
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-    // Create the database if it does not exist
     await context.Database.MigrateAsync();
 
-    // Initialize data
     await SeedData.InitializeAsync(roleManager, userManager, context);
 
-    // Search for an existing admin user
     var existingUser = await userManager.FindByEmailAsync("admin@example.com");
     if (existingUser != null)
     {
@@ -98,7 +88,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
