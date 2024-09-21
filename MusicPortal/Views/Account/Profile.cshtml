@@ -1,0 +1,28 @@
+﻿@model MusicPortal.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Your Profile</h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Profile Information</h5>
+                    @if (Model != null)
+                    {
+                        <p class="card-text"><strong>Username:</strong> @Model.UserName</p>
+                        <p class="card-text"><strong>Email:</strong> @Model.Email</p>
+                    }
+                    else
+                    {
+                        <p class="card-text">Profile information is not available.</p>
+                    }
+                    <a href="@Url.Action("Logout", "Account")" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

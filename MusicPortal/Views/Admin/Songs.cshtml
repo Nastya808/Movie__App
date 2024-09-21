@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MusicPortal.Models.Song>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Songs</title>
+</head>
+<body>
+    <h1>Songs</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Genre</th>
+                <th>File Path</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var song in Model)
+            {
+                <tr>
+                    <td>@song.Title</td>
+                    <td>@song.Artist</td>
+                    <td>@song.Genre.Name</td>
+                    <td>@song.FilePath</td>
+                    <td>
+                        <form asp-action="DeleteSong" method="post">
+                            <input type="hidden" name="songId" value="@song.Id" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

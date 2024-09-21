@@ -1,0 +1,46 @@
+﻿@model MusicPortal.ViewModels.SongsViewModel
+
+@functions {
+    public string GetGenreName(MusicPortal.Models.Genre genre)
+    {
+        return genre != null && !string.IsNullOrEmpty(genre.Name) ? genre.Name : "Pop";
+    }
+}
+
+<div class="container mx-auto p-4">
+    <h2 class="text-3xl font-bold mb-4">Songs</h2>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+            <thead>
+                <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                    <th class="py-3 px-6 text-left">Title</th>
+                    <th class="py-3 px-6 text-left">Artist</th>
+                    <th class="py-3 px-6 text-left">Genre</th>
+                    <th class="py-3 px-6 text-left">Audio</th>
+                    <th class="py-3 px-6 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-700 text-sm font-light">
+                @foreach (var song in Model.Songs)
+                {
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-3 px-6">@song.Title</td>
+                        <td class="py-3 px-6">@song.Artist</td>
+                        <td class="py-3 px-6">@GetGenreName(song.Genre)</td>
+                        <td class="py-3 px-6">
+                            <audio controls class="w-full">
+                                <source src="@song.FilePath" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </td>
+                        <td class="py-3 px-6 flex space-x-2">
+                            <a href="@Url.Action("Edit", new { id = song.Id })" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-300">Edit</a>
+                            <a href="@Url.Action("Delete", new { id = song.Id })" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

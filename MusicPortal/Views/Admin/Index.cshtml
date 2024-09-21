@@ -1,0 +1,26 @@
+﻿@model IEnumerable<MusicPortal.Models.ApplicationUser>
+
+<div class="container mx-auto p-6">
+    <h1 class="text-4xl font-bold mb-6">All Users</h1>
+    <table class="min-w-full bg-white">
+        <thead>
+            <tr>
+                <th class="py-2">User Name</th>
+                <th class="py-2">Email</th>
+                <th class="py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td class="border px-4 py-2">@user.UserName</td>
+                    <td class="border px-4 py-2">@user.Email</td>
+                    <td class="border px-4 py-2">
+                        <a href="@Url.Action("EditUser", new { userId = user.Id })" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,21 @@
+﻿@model MusicPortal.Models.RegistrationRequest
+
+<h1 class="text-3xl font-bold mb-4">View Registration Request</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md mb-6">
+    <h2 class="text-xl font-semibold mb-2">Request Details</h2>
+    <p><strong>Username:</strong> @Model.Username</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Requested By:</strong> @Model.RequestedBy</p>
+
+    <form method="post" action="@Url.Action("ApproveRequest", "Admin")" class="inline">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="requestId" value="@Model.Id" />
+        <button type="submit" class="btn btn-primary">Approve</button>
+    </form>
+    <form method="post" action="@Url.Action("RejectRequest", "Admin")" class="inline">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="requestId" value="@Model.Id" />
+        <button type="submit" class="btn btn-danger">Reject</button>
+    </form>
+</div>

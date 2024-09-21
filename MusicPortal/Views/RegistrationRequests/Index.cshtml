@@ -1,0 +1,33 @@
+﻿@model IEnumerable<MusicPortal.Models.RegistrationRequest>
+
+@{
+    ViewData["Title"] = "Registration Requests";
+}
+
+<h1>Registration Requests</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Requested By</th>
+            <th>Request Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var request in Model)
+        {
+            <tr>
+                <td>@request.Username</td>
+                <td>@request.Email</td>
+                <td>@request.RequestedBy</td>
+                <td>@request.RequestDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>
+                    <a asp-action="Process" asp-route-id="@request.Id" class="btn btn-primary">Process</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

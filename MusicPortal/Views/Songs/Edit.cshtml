@@ -1,0 +1,50 @@
+﻿@model MusicPortal.ViewModels.AddSongViewModel
+
+@{
+    ViewData["Title"] = "Edit Song";
+}
+
+<h2 class="text-3xl font-bold mb-6">Edit Song</h2>
+
+<form method="post" enctype="multipart/form-data" class="space-y-6">
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <div class="mb-4">
+            <label for="Title" class="block text-lg font-medium text-gray-700">Title</label>
+            <input type="text" name="Title" id="Title" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" value="@Model.Title" required />
+            <span class="text-red-600 text-sm" asp-validation-for="Title"></span>
+        </div>
+
+        <div class="mb-4">
+            <label for="Artist" class="block text-lg font-medium text-gray-700">Artist</label>
+            <input type="text" name="Artist" id="Artist" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" value="@Model.Artist" required />
+            <span class="text-red-600 text-sm" asp-validation-for="Artist"></span>
+        </div>
+
+        <div class="mb-4">
+            <label for="GenreId" class="block text-lg font-medium text-gray-700">Genre</label>
+            <select name="GenreId" id="GenreId" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                <option value="" class="text-gray-500">Select Genre</option>
+                @foreach (var genre in ViewBag.Genres)
+                {
+                    <option value="@genre.Value">@genre.Text</option>
+                }
+            </select>
+            <span class="text-red-600 text-sm" asp-validation-for="GenreId"></span>
+        </div>
+
+        <div class="mb-4">
+            <label for="SongFile" class="block text-lg font-medium text-gray-700">Song File</label>
+            @if (!string.IsNullOrEmpty(Model.SongFilePath))
+            {
+                <p class="text-sm text-gray-600">Current file: <strong>@System.IO.Path.GetFileName(Model.SongFilePath)</strong></p>
+            }
+            <input type="file" name="SongFile" id="SongFile" class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" />
+            <span class="text-red-600 text-sm" asp-validation-for="SongFile"></span>
+        </div>
+
+        <div class="flex justify-end space-x-4">
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Save</button>
+            <a href="@Url.Action("Index")" class="px-4 py-2 bg-gray-600 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">Cancel</a>
+        </div>
+    </div>
+</form>

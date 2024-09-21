@@ -1,0 +1,43 @@
+﻿@model MusicPortal.ViewModels.EditUserViewModel
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<h1 class="text-3xl font-bold mb-4">Edit User</h1>
+
+<form asp-action="EditUser" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 class="text-xl font-semibold mb-2">User Information</h2>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-4">
+            <label asp-for="UserName" class="block text-sm font-medium text-gray-700">Username</label>
+            <input asp-for="UserName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+            <span asp-validation-for="UserName" class="text-red-600 text-sm"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input asp-for="Email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+            <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Roles</label>
+            @for (var i = 0; i < Model.Roles.Count(); i++)
+            {
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" name="SelectedRoles" value="@Model.Roles.ElementAt(i).Value" class="mr-2" @(Model.Roles.ElementAt(i).Selected ? "checked" : "") />
+                    <label>@Model.Roles.ElementAt(i).Text</label>
+                </div>
+            }
+        </div>
+
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save Changes</button>
+    </div>
+</form>
+
+<a href="@Url.Action("AdminProfile", "Admin")" class="text-blue-500 hover:text-blue-700">Back to Admin Profile</a>

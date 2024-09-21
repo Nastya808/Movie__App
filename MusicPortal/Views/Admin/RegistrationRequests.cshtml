@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MusicPortal.Models.RegistrationRequest>
+
+<h1 class="text-3xl font-bold mb-4">Registration Requests</h1>
+
+<table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+        <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+        @foreach (var request in Model)
+        {
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">@request.Username</td>
+                <td class="px-6 py-4 whitespace-nowrap">@request.Email</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    @if (!request.IsApproved)
+                    {
+                        <form method="post" action="@Url.Action("ApproveRequest", "Admin")" class="inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="requestId" value="@request.Id" />
+                            <button type="submit" class="text-blue-500 hover:text-blue-700">Approve</button>
+                        </form>
+                        <form method="post" action="@Url.Action("RejectRequest", "Admin")" class="inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="requestId" value="@request.Id" />
+                            <button type="submit" class="text-red-500 hover:text-red-700">Reject</button>
+                        </form>
+                    }
+                    @if (request.IsApproved)
+                    {
+                        <span class="text-green-500">Approved</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

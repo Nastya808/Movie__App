@@ -1,0 +1,36 @@
+﻿@model MusicPortal.ViewModels.AddSongViewModel
+
+<h2 class="text-3xl font-bold mb-6">Add Song</h2>
+
+<form method="post" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-lg">
+    <div class="mb-4">
+        <label for="Title" class="block text-gray-700 text-sm font-semibold mb-2">Title</label>
+        <input type="text" name="Title" id="Title" class="form-input w-full border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" value="@Model.Title" required />
+    </div>
+
+    <div class="mb-4">
+        <label for="Artist" class="block text-gray-700 text-sm font-semibold mb-2">Artist</label>
+        <input type="text" name="Artist" id="Artist" class="form-input w-full border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" value="@Model.Artist" required />
+    </div>
+
+    <div class="mb-4">
+        <label for="GenreId" class="block text-gray-700 text-sm font-semibold mb-2">Genre</label>
+        <select name="GenreId" id="GenreId" class="form-select w-full border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            <option value="">Select Genre</option>
+            @if (ViewBag.Genres != null)
+            {
+                foreach (var genre in (SelectList)ViewBag.Genres)
+                {
+                    <option value="@genre.Value">@genre.Text</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="mb-4">
+        <label for="SongFile" class="block text-gray-700 text-sm font-semibold mb-2">Song File</label>
+        <input type="file" name="SongFile" id="SongFile" class="form-input w-full border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+    </div>
+
+    <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">Add Song</button>
+</form>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MusicPortal.Models.Genre>
+
+@{
+    ViewData["Title"] = "Genres";
+}
+
+<h1>Genres</h1>
+
+<form asp-action="AddGenre" method="post">
+    <div class="form-group">
+        <label for="genreName">New Genre</label>
+        <input type="text" name="genreName" id="genreName" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Genre</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var genre in Model)
+        {
+            <tr>
+                <td>@genre.Name</td>
+                <td>
+                    <form asp-action="DeleteGenre" method="post" style="display:inline;">
+                        <input type="hidden" name="genreId" value="@genre.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

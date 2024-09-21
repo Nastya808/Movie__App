@@ -1,0 +1,32 @@
+﻿@model IEnumerable<MusicPortal.Models.Genre>
+
+@{
+    ViewData["Title"] = "Genres";
+}
+
+<div class="container mx-auto p-6">
+    <h1 class="text-4xl font-bold mb-6">Genres</h1>
+    <p>
+        <a asp-action="Create" class="btn btn-blue">Create New</a>
+    </p>
+    <table class="table-auto w-full mt-4">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-green">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-red">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

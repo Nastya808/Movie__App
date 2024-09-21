@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\" />
+    <None Remove="Views\Songs\" />
+    <None Remove="Views\Admin\" />
+    <None Remove="ViewModels\" />
+    <None Remove="Views\Genres\" />
+    <None Remove="Views\AdminSongs\" />
+    <None Remove="Views\Account\" />
+    <None Remove="TagHelpers\" />
+    <None Remove="Views\RegistrationRequests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Views\Songs\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\Genres\" />
+    <Folder Include="Views\AdminSongs\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="TagHelpers\" />
+    <Folder Include="wwwroot\uploads\" />
+    <Folder Include="Views\RegistrationRequests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.32">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.32" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.32" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.32" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\uploads\" />
+  </ItemGroup>
+</Project>

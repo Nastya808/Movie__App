@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MusicPortal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 p-4 text-white">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold"><a href="@Url.Action("Index", "Home")">MusicPortal</a></h1>
+                <nav>
+                    <a href="@Url.Action("Index", "Home")" class="navbar-link mx-2">Home</a>
+                    <a href="@Url.Action("Index", "Songs")" class="navbar-link mx-2">Songs</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a href="@Url.Action("Profile", "Account")" class="navbar-link mx-2">Profile</a>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <a href="@Url.Action("AdminProfile", "Admin")" class="navbar-link mx-2">Admin Profile</a>
+                            <a href="@Url.Action("Index", "RegistrationRequests")" class="navbar-link mx-2">Requests</a>
+                        }
+                        <form action="@Url.Action("Logout", "Account")" method="post" class="inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="navbar-link mx-2 bg-transparent border-none text-white hover:text-gray-300 focus:outline-none">Logout</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login", "Account")" class="navbar-link mx-2">Login</a>
+                        <a href="@Url.Action("Register", "Account")" class="navbar-link mx-2">Register</a>
+                    }
+                </nav>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Add", "Songs")" class="text-white hover:text-gray-300 mx-2">Add Song</a>
+                }
+            </div>
+        </div>
+    </header>
+    <main class="container mx-auto p-4">
+        @RenderBody()
+    </main>
+    <footer class="bg-gray-800 p-4 text-white mt-4">
+        <div class="container mx-auto text-center">
+            &copy; 2024 - MusicPortal
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
