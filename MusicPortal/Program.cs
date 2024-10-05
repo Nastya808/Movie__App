@@ -84,15 +84,20 @@ using (var scope = app.Services.CreateScope())
     }
     else
     {
-        throw new Exception("Failed to create admin user: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+        foreach (var error in result.Errors)
+        {
+            Console.WriteLine($"Error creating admin user: {error.Description}");
+        }
     }
 }
+
 
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -106,4 +111,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-

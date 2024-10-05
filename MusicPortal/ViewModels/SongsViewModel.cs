@@ -7,7 +7,7 @@ namespace MusicPortal.ViewModels
     public class SongsViewModel
     {
         public IEnumerable<Song> Songs { get; set; } = new List<Song>();
-        public SelectList? Genres { get; set; }
+        public SelectList Genres { get; set; } 
         public string CurrentFilter { get; set; } = string.Empty;
         public string CurrentSort { get; set; } = string.Empty;
         public string TitleSortParm { get; set; } = string.Empty;

@@ -1,33 +1,96 @@
 ﻿@model IEnumerable<MusicPortal.Models.RegistrationRequest>
 
-@{
-    ViewData["Title"] = "Registration Requests";
-}
+<h1 class="text-3xl font-bold mb-4">Registration Requests</h1>
 
-<h1>Registration Requests</h1>
-
-<table class="table">
-    <thead>
+<table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
         <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Requested By</th>
-            <th>Request Date</th>
-            <th>Actions</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="bg-white divide-y divide-gray-200">
         @foreach (var request in Model)
         {
-            <tr>
-                <td>@request.Username</td>
-                <td>@request.Email</td>
-                <td>@request.RequestedBy</td>
-                <td>@request.RequestDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                <td>
-                    <a asp-action="Process" asp-route-id="@request.Id" class="btn btn-primary">Process</a>
+            <tr id="row-@request.Id">
+                <td class="px-6 py-4 whitespace-nowrap">@request.Username</td>
+                <td class="px-6 py-4 whitespace-nowrap">@request.Email</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    @if (!request.IsApproved)
+                    {
+                        <button class="text-blue-500 hover:text-blue-700 approve-btn" data-id="@request.Id">Approve</button>
+                        <button class="text-red-500 hover:text-red-700 reject-btn" data-id="@request.Id">Reject</button>
+                    }
+                    else
+                    {
+                        <span class="text-green-500">Approved</span>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<form id="antiforgery-form">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script>
+       document.addEventListener('DOMContentLoaded', function () {
+    var token = document.querySelector('#antiforgery-form input[name="__RequestVerificationToken"]').value;
+
+    //Approve
+    document.querySelectorAll('.approve-btn').forEach(function(button) {
+        button.addEventListener('click', function () {
+            var requestId = this.getAttribute('data-id');
+
+            fetch('@Url.Action("ApproveRequest", "RegistrationRequests")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': token
+                },
+                body: `requestId=${encodeURIComponent(requestId)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelector(`#row-${requestId} .approve-btn`).remove();
+                    document.querySelector(`#row-${requestId} .reject-btn`).remove();
+                    document.querySelector(`#row-${requestId} td:nth-child(3)`).innerHTML = '<span class="text-green-500">Approved</span>';
+                } else {
+                    alert(data.message || 'Error occurred');
+                }
+            });
+        });
+    });
+
+    //Reject
+    document.querySelectorAll('.reject-btn').forEach(function(button) {
+        button.addEventListener('click', function () {
+            var requestId = this.getAttribute('data-id');
+
+            fetch('@Url.Action("RejectRequest", "RegistrationRequests")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': token
+                },
+                body: `requestId=${encodeURIComponent(requestId)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelector(`#row-${requestId}`).remove();
+                } else {
+                    alert(data.message || 'Error occurred');
+                }
+            });
+        });
+    });
+});
+
+    </script>
+}

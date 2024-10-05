@@ -32,6 +32,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/Views/Account/RegistrationPending.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9SZWdpc3RyYXRpb25QZW5kaW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/Views/Admin/AdminProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQWRtaW5Qcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -86,6 +90,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/Views/RegistrationRequests/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVnaXN0cmF0aW9uUmVxdWVzdHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/Views/RegistrationRequests/ViewRequest.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVnaXN0cmF0aW9uUmVxdWVzdHMvVmlld1JlcXVlc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/nastyaergenova/Documents/GitHub/Movie__App/MusicPortal/Views/Shared/Error.cshtml]

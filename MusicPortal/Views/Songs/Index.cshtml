@@ -1,24 +1,67 @@
-﻿@model MusicPortal.ViewModels.SongsViewModel
+﻿@using Microsoft.AspNetCore.Html
+@model MusicPortal.ViewModels.SongsViewModel
 
 @functions {
     public string GetGenreName(MusicPortal.Models.Genre genre)
     {
-        return genre != null && !string.IsNullOrEmpty(genre.Name) ? genre.Name : "Pop";
+        return genre != null && !string.IsNullOrEmpty(genre.Name) ? genre.Name : "Unknown";
     }
+
+    public IEnumerable<IHtmlContent> GenerateGenreOptions(IEnumerable<SelectListItem> genres, int? currentGenreId)
+    {
+        var allGenresOption = new TagBuilder("option");
+        allGenresOption.Attributes.Add("value", "");
+        allGenresOption.InnerHtml.Append("All Genres");
+        yield return new HtmlString(allGenresOption.ToString());
+
+        foreach (var genre in genres)
+        {
+            var option = new TagBuilder("option");
+            option.Attributes.Add("value", genre.Value);
+            if (currentGenreId.HasValue && currentGenreId.Value == Convert.ToInt32(genre.Value))
+            {
+                option.Attributes.Add("selected", "selected");
+            }
+            option.InnerHtml.Append(genre.Text);
+            yield return new HtmlString(option.ToString());
+        }
+    }
+
 }
 
 <div class="container mx-auto p-4">
     <h2 class="text-3xl font-bold mb-4">Songs</h2>
 
+    <form asp-action="Index" method="get" class="mb-4 flex space-x-2">
+        <input type="text" name="searchString" value="@Model.CurrentFilter" placeholder="Search by title or artist" class="border border-gray-300 p-2 rounded-md" />
+
+        <select name="genreId" class="border border-gray-300 p-2 rounded-md">
+            <option value="">All Genres</option> 
+            @foreach (var genre in Model.Genres)
+            {
+                <option value="@genre.Value" selected="@(Model.CurrentGenre != null && Model.CurrentGenre.ToString() == genre.Value ? "selected" : null)">@genre.Text</option>
+            }
+        </select>
+
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">Search</button>
+    </form>
+
+
+
+
     <div class="overflow-x-auto">
         <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
             <thead>
                 <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                    <th class="py-3 px-6 text-left">Title</th>
-                    <th class="py-3 px-6 text-left">Artist</th>
-                    <th class="py-3 px-6 text-left">Genre</th>
-                    <th class="py-3 px-6 text-left">Audio</th>
-                    <th class="py-3 px-6 text-left">Actions</th>
+                    <th class="py-3 px-6">
+                        <a asp-action="Index" asp-route-sortOrder="@Model.TitleSortParm" class="text-gray-600 hover:text-blue-600">Title</a>
+                    </th>
+                    <th class="py-3 px-6">
+                        <a asp-action="Index" asp-route-sortOrder="@Model.ArtistSortParm" class="text-gray-600 hover:text-blue-600">Artist</a>
+                    </th>
+                    <th class="py-3 px-6">Genre</th>
+                    <th class="py-3 px-6">Audio</th>
+                    <th class="py-3 px-6">Actions</th>
                 </tr>
             </thead>
             <tbody class="text-gray-700 text-sm font-light">
@@ -42,5 +85,34 @@
                 }
             </tbody>
         </table>
+    </div>
+
+    <div class="mt-4 flex justify-between items-center">
+        <div>
+            @if (Model.PageNumber > 1)
+            {
+                <a asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-searchString="@Model.CurrentFilter" asp-route-genreId="@Model.CurrentGenre" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-300">Previous</a>
+            }
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                if (i == Model.PageNumber)
+                {
+                    <strong class="text-gray-700">@i</strong>
+                }
+                else
+                {
+                    <a asp-action="Index" asp-route-pageNumber="@i" asp-route-searchString="@Model.CurrentFilter" asp-route-genreId="@Model.CurrentGenre" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-300">@i</a>
+                }
+            }
+
+            @if (Model.PageNumber < Model.TotalPages)
+            {
+                <a asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-searchString="@Model.CurrentFilter" asp-route-genreId="@Model.CurrentGenre" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-300">Next</a>
+            }
+        </div>
+        <div>
+            <a asp-action="Add" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300">Add New Song</a>
+        </div>
     </div>
 </div>

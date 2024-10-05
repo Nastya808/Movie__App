@@ -24,7 +24,13 @@ namespace MusicPortal.Controllers
         {
             if (file != null && file.Length > 0)
             {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", file.FileName);
+                var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                if (!Directory.Exists(uploadsDir))
+                {
+                    Directory.CreateDirectory(uploadsDir);
+                }
+
+                var filePath = Path.Combine(uploadsDir, file.FileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
@@ -33,24 +39,11 @@ namespace MusicPortal.Controllers
             }
             return null;
         }
-
-
-        private async Task<string> SaveSongFile(IFormFile file)
+        public async Task<IActionResult> Index(string searchString, int? genreId, string sortOrder, int pageNumber = 1)
         {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", file.FileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-            return "/uploads/" + file.FileName;
-        }
+            var query = _context.Songs.Include(s => s.Genre).AsQueryable();
 
-        public async Task<IActionResult> Index(string searchString, int? genreId, int pageNumber = 1)
-        {
-            var query = _context.Songs
-                .Include(s => s.Genre)  
-                .AsQueryable();
-
+            // Filtering
             if (!string.IsNullOrEmpty(searchString))
             {
                 query = query.Where(s => s.Title.Contains(searchString) || s.Artist.Contains(searchString));
@@ -61,30 +54,48 @@ namespace MusicPortal.Controllers
                 query = query.Where(s => s.GenreId == genreId.Value);
             }
 
+            // Sorting
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    query = query.OrderByDescending(s => s.Title);
+                    break;
+                case "artist":
+                    query = query.OrderBy(s => s.Artist);
+                    break;
+                case "artist_desc":
+                    query = query.OrderByDescending(s => s.Artist);
+                    break;
+                default:
+                    query = query.OrderBy(s => s.Title);
+                    break;
+            }
+
+            // Pagination
             var pageSize = 10;
             var totalCount = await query.CountAsync();
-            var totalPages = (int)System.Math.Ceiling((double)totalCount / pageSize);
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
-            var songs = await _context.Songs
-                .Include(s => s.Genre) 
+            var songs = await query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
+            var genres = await _context.Genres.ToListAsync();
 
             var model = new SongsViewModel
             {
                 Songs = songs,
-                Genres = new SelectList(await _context.Genres.ToListAsync(), "Id", "Name"),
+                Genres = new SelectList(genres, "Id", "Name"), 
                 CurrentFilter = searchString,
                 CurrentGenre = genreId,
+                CurrentSort = sortOrder,
                 PageNumber = pageNumber,
                 TotalPages = totalPages
             };
 
             return View(model);
         }
-
 
 
         [HttpGet]

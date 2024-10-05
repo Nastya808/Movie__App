@@ -17,7 +17,7 @@ namespace MusicPortal.Models
 
         public bool IsApproved { get; set; }
 
-        public string RequestedBy { get; set; }
+        public string? RequestedBy { get; set; }
 
         public DateTime RequestDate { get; set; } = DateTime.UtcNow;
 

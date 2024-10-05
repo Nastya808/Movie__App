@@ -1,0 +1,86 @@
+﻿<Properties StartupConfiguration="{B3517BD2-7647-429A-BC23-EA9EB813B53B}|Default" GitUserInfo="UsingGIT">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MusicPortal/Controllers/AccountController.cs">
+    <Files>
+      <File FileName="MusicPortal/Program.cs" />
+      <File FileName="MusicPortal/SeedData.cs" />
+      <File FileName="MusicPortal/Controllers/AccountController.cs" Line="267" Column="1" />
+      <File FileName="MusicPortal/Controllers/AdminController.cs" />
+      <File FileName="MusicPortal/Controllers/AdminSongsController.cs" />
+      <File FileName="MusicPortal/Controllers/GenresController.cs" />
+      <File FileName="MusicPortal/Controllers/HomeController.cs" />
+      <File FileName="MusicPortal/Controllers/RegistrationRequestsController.cs" />
+      <File FileName="MusicPortal/Controllers/SongsController.cs" />
+      <File FileName="MusicPortal/Controllers/UserProfileController.cs" />
+      <File FileName="MusicPortal/Data/ApplicationDbContext.cs" />
+      <File FileName="MusicPortal/Data/Repository.cs" />
+      <File FileName="MusicPortal/Data/IRepository.cs" />
+      <File FileName="MusicPortal/Models/ApplicationUser.cs" />
+      <File FileName="MusicPortal/Models/ErrorViewModel.cs" />
+      <File FileName="MusicPortal/Models/Genre.cs" />
+      <File FileName="MusicPortal/Models/RegistrationRequest.cs" />
+      <File FileName="MusicPortal/Models/Song.cs" />
+      <File FileName="MusicPortal/Properties/launchSettings.json" />
+      <File FileName="MusicPortal/TagHelpers/PageLinkTagHelper.cs" />
+      <File FileName="MusicPortal/TagHelpers/SortTagHelper.cs" />
+      <File FileName="MusicPortal/ViewModels/AddSongViewModel.cs" />
+      <File FileName="MusicPortal/ViewModels/AdminProfileViewModel.cs" />
+      <File FileName="MusicPortal/ViewModels/EditUserViewModel.cs" />
+      <File FileName="MusicPortal/ViewModels/GenreViewModel.cs" />
+      <File FileName="MusicPortal/ViewModels/IndexViewModel.cs" />
+      <File FileName="MusicPortal/ViewModels/LoginViewModel.cs" />
+      <File FileName="MusicPortal/ViewModels/RegisterRequestViewModel.cs" />
+      <File FileName="MusicPortal/ViewModels/RegisterViewModel.cs" />
+      <File FileName="MusicPortal/ViewModels/SongsViewModel.cs" />
+      <File FileName="MusicPortal/ViewModels/SongUploadViewModel.cs" />
+      <File FileName="MusicPortal/ViewModels/UserProfileViewModel.cs" />
+      <File FileName="MusicPortal/Views/Account/Login.cshtml" />
+      <File FileName="MusicPortal/Views/Account/Logout.cshtml" />
+      <File FileName="MusicPortal/Views/Account/Profile.cshtml" />
+      <File FileName="MusicPortal/Views/Account/Register.cshtml" />
+      <File FileName="MusicPortal/Views/Admin/EditUser.cshtml" />
+      <File FileName="MusicPortal/Views/Admin/AdminProfile.cshtml" />
+      <File FileName="MusicPortal/Views/Admin/Genres.cshtml" />
+      <File FileName="MusicPortal/Views/Admin/Index.cshtml" />
+      <File FileName="MusicPortal/Views/Admin/Songs.cshtml" />
+      <File FileName="MusicPortal/Views/Admin/Users.cshtml" />
+      <File FileName="MusicPortal/Views/Admin/ViewRequest.cshtml" />
+      <File FileName="MusicPortal/Views/AdminSongs/AddGenre.cshtml" />
+      <File FileName="MusicPortal/Views/Genres/Create.cshtml" />
+      <File FileName="MusicPortal/Views/Genres/Index.cshtml" />
+      <File FileName="MusicPortal/Views/Home/Index.cshtml" />
+      <File FileName="MusicPortal/Views/Home/Privacy.cshtml" />
+      <File FileName="MusicPortal/Views/RegistrationRequests/Index.cshtml" />
+      <File FileName="MusicPortal/Views/Shared/_Layout.cshtml" />
+      <File FileName="MusicPortal/Views/Shared/_ValidationScriptsPartial.cshtml" />
+      <File FileName="MusicPortal/Views/Shared/Error.cshtml" />
+      <File FileName="MusicPortal/Views/Songs/Add.cshtml" />
+      <File FileName="MusicPortal/Views/Songs/Delete.cshtml" />
+      <File FileName="MusicPortal/Views/Songs/Edit.cshtml" />
+      <File FileName="MusicPortal/Views/Songs/Index.cshtml" />
+      <File FileName="MusicPortal/Views/Admin/RegistrationRequests.cshtml" />
+      <File FileName="MusicPortal/Views/Account/RegistrationPending.cshtml" />
+      <File FileName="MusicPortal/Views/RegistrationRequests/ViewRequest.cshtml" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MusicPortal">
+            <Node name="MusicPortal" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="AccountController.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.MusicPortal PreferredExecutionTarget="/Applications/Safari.app" />
+</Properties>

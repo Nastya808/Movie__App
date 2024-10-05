@@ -25,9 +25,10 @@ public class AdminController : Controller
         _userManager = userManager;
         _roleManager = roleManager;
     }
+
     public async Task<IActionResult> AdminProfile()
     {
-        var adminId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
+        var adminId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var admin = await _userManager.FindByIdAsync(adminId);
 
         if (admin == null)
@@ -48,7 +49,6 @@ public class AdminController : Controller
 
         return View(model);
     }
-
 
     public async Task<IActionResult> Users()
     {
@@ -99,15 +99,18 @@ public class AdminController : Controller
         var currentRoles = await _userManager.GetRolesAsync(user);
         var selectedRoles = model.SelectedRoles.ToList();
 
-        var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(currentRoles));
-        if (!result.Succeeded)
+        var rolesToAdd = selectedRoles.Except(currentRoles);
+        var rolesToRemove = currentRoles.Except(selectedRoles);
+
+        var addRolesResult = await _userManager.AddToRolesAsync(user, rolesToAdd);
+        if (!addRolesResult.Succeeded)
         {
             ModelState.AddModelError(string.Empty, "Failed to add roles");
             return View(model);
         }
 
-        result = await _userManager.RemoveFromRolesAsync(user, currentRoles.Except(selectedRoles));
-        if (!result.Succeeded)
+        var removeRolesResult = await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
+        if (!removeRolesResult.Succeeded)
         {
             ModelState.AddModelError(string.Empty, "Failed to remove roles");
             return View(model);
@@ -120,9 +123,8 @@ public class AdminController : Controller
             return View(model);
         }
 
-        return RedirectToAction("AdminProfile", "Admin");
+        return RedirectToAction(nameof(AdminProfile));
     }
-
 
     [HttpPost]
     public async Task<IActionResult> DeleteUser(string userId)
@@ -140,8 +142,7 @@ public class AdminController : Controller
         return RedirectToAction(nameof(AdminProfile));
     }
 
-
-public async Task<IActionResult> Genres()
+    public async Task<IActionResult> Genres()
     {
         var genres = await _context.Genres.ToListAsync();
         return View(genres);
@@ -156,7 +157,7 @@ public async Task<IActionResult> Genres()
             _context.Genres.Add(genre);
             await _context.SaveChangesAsync();
         }
-        return RedirectToAction("Genres");
+        return RedirectToAction(nameof(Genres));
     }
 
     [HttpPost]
@@ -168,7 +169,7 @@ public async Task<IActionResult> Genres()
             _context.Genres.Remove(genre);
             await _context.SaveChangesAsync();
         }
-        return RedirectToAction("Genres");
+        return RedirectToAction(nameof(Genres));
     }
 
     public async Task<IActionResult> Songs()
@@ -189,18 +190,26 @@ public async Task<IActionResult> Genres()
     {
         if (ModelState.IsValid)
         {
+            var songFilePath = await SaveSongFileAsync(model.SongFile);
+            if (songFilePath == null)
+            {
+                ModelState.AddModelError(string.Empty, "Failed to save the song file.");
+                ViewBag.Genres = new SelectList(await _context.Genres.ToListAsync(), "Id", "Name", model.GenreId);
+                return View(model);
+            }
+
             var song = new Song
             {
                 Title = model.Title,
                 Artist = model.Artist,
                 GenreId = model.GenreId,
-                FilePath = await SaveSongFileAsync(model.SongFile),
+                FilePath = songFilePath,
                 UserId = User.Identity.Name
             };
 
             _context.Songs.Add(song);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Songs");
+            return RedirectToAction(nameof(Songs));
         }
 
         ViewBag.Genres = new SelectList(await _context.Genres.ToListAsync(), "Id", "Name", model.GenreId);
@@ -216,7 +225,7 @@ public async Task<IActionResult> Genres()
             _context.Songs.Remove(song);
             await _context.SaveChangesAsync();
         }
-        return RedirectToAction("Songs");
+        return RedirectToAction(nameof(Songs));
     }
 
     private async Task<string> SaveSongFileAsync(IFormFile file)
@@ -227,10 +236,18 @@ public async Task<IActionResult> Genres()
         }
 
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "songs", file.FileName);
+        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        try
         {
-            await file.CopyToAsync(stream);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+        }
+        catch (IOException)
+        {
+            return null;
         }
 
         return $"/songs/{file.FileName}";
@@ -243,12 +260,12 @@ public async Task<IActionResult> Genres()
     }
 
     [HttpPost]
-    public async Task<IActionResult> ApproveRequest(int requestId)
+    public async Task<IActionResult> ApproveRequest([FromForm] int requestId)
     {
         var request = await _context.RegistrationRequests.FindAsync(requestId);
         if (request == null)
         {
-            return NotFound();
+            return Json(new { success = false, message = "Request not found" });
         }
 
         var user = new ApplicationUser
@@ -257,33 +274,38 @@ public async Task<IActionResult> Genres()
             Email = request.Email
         };
 
-        var result = await _userManager.CreateAsync(user);
+        var result = await _userManager.CreateAsync(user, request.Password);  
         if (result.Succeeded)
         {
             request.IsApproved = true;
+            request.IsProcessed = true;
             _context.RegistrationRequests.Update(request);
             await _context.SaveChangesAsync();
+
+            return Json(new { success = true });
         }
         else
         {
-            ModelState.AddModelError(string.Empty, "Failed to create user");
+            return Json(new { success = false, message = "Error creating user: " + string.Join(", ", result.Errors.Select(e => e.Description)) });
         }
-
-        return RedirectToAction(nameof(RegistrationRequests));
     }
+
 
     [HttpPost]
-    public async Task<IActionResult> RejectRequest(int requestId)
+    public async Task<IActionResult> RejectRequest([FromForm] int requestId)
     {
         var request = await _context.RegistrationRequests.FindAsync(requestId);
-        if (request != null)
+        if (request == null)
         {
-            _context.RegistrationRequests.Remove(request);
-            await _context.SaveChangesAsync();
+            return Json(new { success = false, message = "Request not found" });
         }
 
-        return RedirectToAction(nameof(RegistrationRequests));
+        _context.RegistrationRequests.Remove(request);
+        await _context.SaveChangesAsync();
+
+        return Json(new { success = true });
     }
+
 
     public async Task<IActionResult> ViewRequest(int requestId)
     {
