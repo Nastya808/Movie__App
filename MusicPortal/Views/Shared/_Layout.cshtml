@@ -10,6 +10,10 @@
     <header class="bg-blue-600 p-4 text-white">
         <div class="container mx-auto">
             <div class="flex justify-between items-center">
+                <form id="selectLanguage" asp-controller="Home" asp-action="SetLanguage" method="post">
+                    <a href="@Url.Action("SetLanguage", new { culture = "en" })">English</a>
+                    <a href="@Url.Action("SetLanguage", new { culture = "ru" })">Русский</a>
+                </form>
                 <h1 class="text-2xl font-bold"><a href="@Url.Action("Index", "Home")">MusicPortal</a></h1>
                 <nav>
                     <a href="@Url.Action("Index", "Home")" class="navbar-link mx-2">Home</a>

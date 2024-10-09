@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using MusicPortal.Data;
 using MusicPortal.Models;
 using MusicPortal.ViewModels;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
+
 
 namespace MusicPortal.Controllers
 {
@@ -17,15 +17,45 @@ namespace MusicPortal.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IPasswordValidator<ApplicationUser> _passwordValidator;
+        private readonly IStringLocalizer<AccountController> _localizer;
 
-        public AccountController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger, IPasswordValidator<ApplicationUser> passwordValidator)
+        public AccountController(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
+                                  SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger,
+                                  IPasswordValidator<ApplicationUser> passwordValidator,
+                                  IStringLocalizer<AccountController> localizer)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _passwordValidator = passwordValidator; 
+            _passwordValidator = passwordValidator;
+            _localizer = localizer;
         }
+
+        [HttpGet]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+            {
+
+                returnUrl = Url.Action("Login", "Account"); // URL по умолчанию - Login
+
+                if (Request.Path.Value.Contains("Register", StringComparison.OrdinalIgnoreCase))
+                {
+                    returnUrl = Url.Action("Register", "Account"); 
+                }
+            }
+
+            return LocalRedirect(returnUrl);
+        }
+
+
 
         [HttpGet]
         public IActionResult Profile()
@@ -37,6 +67,7 @@ namespace MusicPortal.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            ViewData["Title"] = _localizer["Login"]; // Локализованное название
             return View();
         }
 
@@ -46,7 +77,7 @@ namespace MusicPortal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Username); 
+                var user = await _userManager.FindByNameAsync(model.Username);
 
                 if (user != null)
                 {
@@ -55,11 +86,10 @@ namespace MusicPortal.Controllers
 
                     if (registrationRequest != null && !registrationRequest.IsApproved)
                     {
-                        ModelState.AddModelError(string.Empty, "Your registration request is still pending approval.");
+                        ModelState.AddModelError(string.Empty, _localizer["PendingApproval"]); // Локализованное сообщение
                         return View(model);
                     }
 
-                    // Proceed to sign in if user is found and approved
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
@@ -67,23 +97,23 @@ namespace MusicPortal.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        ModelState.AddModelError(string.Empty, _localizer["InvalidLoginAttempt"]); // Локализованное сообщение
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "User not found.");
+                    ModelState.AddModelError(string.Empty, _localizer["UserNotFound"]); // Локализованное сообщение
                 }
             }
-
-            // If we got this far, something failed; redisplay form
             return View(model);
         }
+
 
 
         [HttpGet]
         public IActionResult Register()
         {
+            ViewData["Title"] = _localizer["Register"]; // Локализованное название
             return View();
         }
 
@@ -99,7 +129,6 @@ namespace MusicPortal.Controllers
                     Email = model.Email
                 };
 
-                // Validate the password
                 var validationResults = await _passwordValidator.ValidateAsync(_userManager, user, model.Password);
                 if (validationResults.Succeeded)
                 {
@@ -126,6 +155,7 @@ namespace MusicPortal.Controllers
             }
             return View(model);
         }
+
 
         public IActionResult RegistrationPending()
         {
@@ -156,7 +186,7 @@ namespace MusicPortal.Controllers
                 Email = request.Email
             };
 
-            var result = await _userManager.CreateAsync(user, request.Password); // Pass the password here
+            var result = await _userManager.CreateAsync(user, request.Password); 
             if (result.Succeeded)
             {
                 request.IsApproved = true;
@@ -191,10 +221,10 @@ namespace MusicPortal.Controllers
 
                 if (result.Succeeded)
                 {
-                    registrationRequest.IsApproved = true; // Mark the request as approved
-                    registrationRequest.IsProcessed = true; // Mark as processed
-                    await _context.SaveChangesAsync(); 
-                    return RedirectToAction("Index"); 
+                    registrationRequest.IsApproved = true; 
+                    registrationRequest.IsProcessed = true; 
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -210,7 +240,7 @@ namespace MusicPortal.Controllers
                 ModelState.AddModelError(string.Empty, "Request not found or already approved.");
             }
 
-            return View(); 
+            return View();
         }
 
 
@@ -263,4 +293,8 @@ namespace MusicPortal.Controllers
             return View(model);
         }
     }
+
+
+
+
 }

@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[2.0.4, )"
             },
+            "Microsoft.AspNetCore.Mvc.Localization": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
             "Microsoft.AspNetCore.StaticFiles": {
               "target": "Package",
               "version": "[2.0.3, )"
@@ -65,6 +69,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.32, )"
+            },
+            "Microsoft.Extensions.Localization": {
+              "target": "Package",
+              "version": "[7.0.20, )"
             },
             "Microsoft.Extensions.Logging": {
               "target": "Package",

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="RegisterHeading" xml:space="preserve">
+    <value>Регистрация на Музыкальном Портале</value>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="UsernamePlaceholder" xml:space="preserve">
+    <value>Введите ваше имя пользователя</value>
+  </data>
+  <data name="EmailLabel" xml:space="preserve">
+    <value>Электронная почта</value>
+  </data>
+  <data name="EmailPlaceholder" xml:space="preserve">
+    <value>Введите ваш электронный адрес</value>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="PasswordPlaceholder" xml:space="preserve">
+    <value>Введите ваш пароль</value>
+  </data>
+  <data name="ConfirmPasswordLabel" xml:space="preserve">
+    <value>Подтвердите пароль</value>
+  </data>
+  <data name="ConfirmPasswordPlaceholder" xml:space="preserve">
+    <value>Подтвердите ваш пароль</value>
+  </data>
+  <data name="SubmitButton" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+</root>

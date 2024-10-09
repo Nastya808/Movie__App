@@ -1,35 +1,27 @@
-﻿@model LoginViewModel
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@model LoginViewModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container mx-auto p-8 max-w-md">
-    <h1 class="text-3xl font-bold mb-6 text-center">Login to Music Portal</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center">@Localizer["Title"]</h1>
     <form asp-action="Login" method="post" class="bg-white shadow-lg rounded-lg p-6">
         <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
 
         <div class="form-group mb-4">
-            <label for="Username" class="block text-gray-700 font-medium">Username</label>
+            <label for="Username" class="block text-gray-700 font-medium">@Localizer["UsernameLabel"]</label>
             <input asp-for="Username" id="Username" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" />
             <span asp-validation-for="Username" class="text-red-500 text-sm mt-1"></span>
         </div>
 
         <div class="form-group mb-4">
-            <label for="Password" class="block text-gray-700 font-medium">Password</label>
-            <input asp-for="Password" id="Password" type="password" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" />
+            <label for="Password" class="block text-gray-700 font-medium">@Localizer["PasswordLabel"]</label>
+            <input asp-for="Password" id="Password" type="password" class="form-input mt-1 block w-full" />
             <span asp-validation-for="Password" class="text-red-500 text-sm mt-1"></span>
         </div>
 
-        <div class="form-group mb-4 flex items-center">
-            <input asp-for="RememberMe" id="RememberMe" type="checkbox" class="mr-2 leading-tight" />
-            <label for="RememberMe" class="text-gray-700">Remember me?</label>
-        </div>
-
-        <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Login</button>
+        <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none">@Localizer["LoginButton"]</button>
     </form>
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

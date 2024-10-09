@@ -16,6 +16,10 @@
     <None Remove="Views\Account\" />
     <None Remove="TagHelpers\" />
     <None Remove="Views\RegistrationRequests\" />
+    <None Remove="Resources\" />
+    <None Remove="Resources\Views\" />
+    <None Remove="Resources\Views\Home\" />
+    <None Remove="Resources\Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -28,6 +32,10 @@
     <Folder Include="TagHelpers\" />
     <Folder Include="wwwroot\uploads\" />
     <Folder Include="Views\RegistrationRequests\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\Views\" />
+    <Folder Include="Resources\Views\Home\" />
+    <Folder Include="Resources\Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.4" />
@@ -40,6 +48,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.32" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.20" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\uploads\" />
